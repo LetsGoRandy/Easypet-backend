@@ -3,7 +3,6 @@ spring:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:easypet_db}
     username: ${DB_USER:easypet_user}
     password: ${DB_PASS:easypet_pass}
-
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
@@ -12,3 +11,8 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:f29796ee04ae9634b97c2a75f0a1f26c6b8f8044e5d37d9289ba57db5964d697}
+    expiration: 86400000
