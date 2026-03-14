@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,13 +26,23 @@ public class AuthController {
     @PostMapping("/register")
     @Operation(summary = "Registrar novo usuário")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
+        AuthResponse response = authService.register(request);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.email())
+                .toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
     @PostMapping("/register/vet")
     @Operation(summary = "Registrar novo veterinário")
     public ResponseEntity<AuthResponse> registerVet(@Valid @RequestBody RegisterVetRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerVet(request.credentials(), request.professional()));
+        AuthResponse response = authService.registerVet(request.credentials(),request.professional());
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.email())
+                .toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
     @PostMapping("/login")

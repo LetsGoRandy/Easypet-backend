@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -24,7 +26,12 @@ public class PetController {
     @PostMapping
     @Operation(summary = "Cadastrar novo pet")
     public ResponseEntity<PetResponse> create(@Valid @RequestBody PetRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(petService.create(request));
+        PetResponse response = petService.create(request);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.id())
+                .toUri();
+        return ResponseEntity.created(uri).body(response);
     }
 
     @GetMapping
