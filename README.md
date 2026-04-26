@@ -334,5 +334,5 @@ docs/xx     → documentação
 
 
 <div align="center">
-  Desenvolvido por <a href="https://github.com/LetsGoRandy">Randy Gomes</a>
+  Desenvolvido por <a href="https://github.com/Randygomesdev">Randy Gomes</a>
 </div>
